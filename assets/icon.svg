@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!-- Created with Inkscape (http://www.inkscape.org/) -->
+
+<svg version="1.1" id="Layer_1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px"
+	 viewBox="0 0 45 45" style="enable-background:new 0 0 267.1 508;" xml:space="preserve">
+    <g
+       id="Group_2"
+       data-name="Group 2"
+       transform="matrix(0.26420079,0,0,0.26420079,0,7.5)">
+      <g
+         id="Group_1"
+         data-name="Group 1"
+         clip-path="url(#clip-path)">
+        <path
+           id="Path_1"
+           data-name="Path 1"
+           d="M 325.143,113.55 A 56.775,56.775 0 0 1 325.143,0 Z"
+           transform="translate(-154.818)" />
+        <path
+           id="Path_2"
+           data-name="Path 2"
+           d="M 113.55,134.184 H 0 a 56.775,56.775 0 0 0 113.55,0"
+           transform="translate(0,-77.409)" />
+      </g>
+    </g>
+</svg>
