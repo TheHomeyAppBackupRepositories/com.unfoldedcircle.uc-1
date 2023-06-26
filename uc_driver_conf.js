@@ -2,7 +2,7 @@
 
 module.exports.config = {
   driver_id: 'uc_homey_driver',
-  version: '1.0.2',
+  version: '1.0.3',
   min_core_api: '0.0.1',
   name: { en: 'Athom Homey' },
   icon: 'custom:homey.png',

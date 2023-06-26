@@ -118,12 +118,15 @@ async function ucFeaturesFromHomeyDevice(uc, homeyDevice) {
 
 async function ucStatesFromHomeyDevice(uc, homeyDevice) {
   let deviceStates = new Map([]);
-  if (homeyDevice.capabilities.includes('onoff'))
+  if (homeyDevice.capabilities.includes('onoff') && typeof homeyDevice?.capabilitiesObj?.onoff?.value == 'boolean')
     deviceStates.set([uc.Entities.Light.ATTRIBUTES.STATE], homeyDevice.capabilitiesObj.onoff.value ? uc.Entities.Light.STATES.ON : uc.Entities.Light.STATES.OFF);
-  if (homeyDevice.capabilities.includes('dim')) deviceStates.set([uc.Entities.Light.ATTRIBUTES.DIM], parseInt(homeyDevice.capabilitiesObj.dim.value * SCALE_DEFAULT));
-  if (homeyDevice.capabilities.includes('light_hue')) deviceStates.set([uc.Entities.Light.ATTRIBUTES.HUE], parseInt(homeyDevice.capabilitiesObj.light_hue.value * SCALE_HUE));
-  if (homeyDevice.capabilities.includes('light_saturation')) deviceStates.set([uc.Entities.Light.ATTRIBUTES.SATURATION], parseInt(homeyDevice.capabilitiesObj.light_saturation.value * SCALE_DEFAULT));
-  if (homeyDevice.capabilities.includes('light_temperature'))
+  if (homeyDevice.capabilities.includes('dim') && typeof homeyDevice?.capabilitiesObj?.dim?.value == 'number')
+    deviceStates.set([uc.Entities.Light.ATTRIBUTES.DIM], parseInt(homeyDevice.capabilitiesObj.dim.value * SCALE_DEFAULT));
+  if (homeyDevice.capabilities.includes('light_hue') && typeof homeyDevice?.capabilitiesObj?.light_hue?.value == 'number')
+    deviceStates.set([uc.Entities.Light.ATTRIBUTES.HUE], parseInt(homeyDevice.capabilitiesObj.light_hue.value * SCALE_HUE));
+  if (homeyDevice.capabilities.includes('light_saturation') && typeof homeyDevice?.capabilitiesObj?.light_saturation?.value == 'number')
+    deviceStates.set([uc.Entities.Light.ATTRIBUTES.SATURATION], parseInt(homeyDevice.capabilitiesObj.light_saturation.value * SCALE_DEFAULT));
+  if (homeyDevice.capabilities.includes('light_temperature') && typeof homeyDevice?.capabilitiesObj?.light_temperature?.value == 'number')
     deviceStates.set([uc.Entities.Light.ATTRIBUTES.COLOR_TEMPERATURE], parseInt(homeyDevice.capabilitiesObj.light_temperature.value * SCALE_DEFAULT));
   return deviceStates;
 }

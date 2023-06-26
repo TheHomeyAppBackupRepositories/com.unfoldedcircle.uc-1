@@ -41,15 +41,16 @@ async function ucFeaturesFromHomeyDevice(uc, homeyDevice) {
 async function ucStatesFromHomeyDevice(uc, homeyDevice) {
   let deviceStates = new Map([]);
 
-  if (homeyDevice.capabilities.includes('onoff'))
+  if (homeyDevice.capabilities.includes('onoff') && typeof homeyDevice?.capabilitiesObj?.onoff?.value == 'boolean')
     deviceStates.set([uc.Entities.MediaPlayer.ATTRIBUTES.STATE], homeyDevice.capabilitiesObj.onoff.value ? uc.Entities.MediaPlayer.STATES.ON : uc.Entities.MediaPlayer.STATES.OFF);
 
-  if (homeyDevice.capabilities.includes('speaker_album')) deviceStates.set([uc.Entities.MediaPlayer.ATTRIBUTES.MEDIA_IMAGE_URL], tools.grabHomeyDeviceImage(homeyDevice)); //grabHomeyDeviceImage
+  if (homeyDevice.capabilities.includes('speaker_album') && typeof homeyDevice?.images[0]?.imageObj?.url == 'string')
+    deviceStates.set([uc.Entities.MediaPlayer.ATTRIBUTES.MEDIA_IMAGE_URL], tools.grabHomeyDeviceImage(homeyDevice)); //grabHomeyDeviceImage
 
-  if (homeyDevice.capabilities.includes('speaker_playing'))
+  if (homeyDevice.capabilities.includes('speaker_playing') && typeof homeyDevice?.capabilitiesObj?.speaker_playing?.value == 'boolean')
     deviceStates.set([uc.Entities.MediaPlayer.ATTRIBUTES.STATE], homeyDevice.capabilitiesObj.speaker_playing.value ? uc.Entities.MediaPlayer.STATES.PLAYING : uc.Entities.MediaPlayer.STATES.OFF);
 
-  if (homeyDevice.capabilities.includes('speaker_repeat')) {
+  if (homeyDevice.capabilities.includes('speaker_repeat') && typeof homeyDevice?.capabilitiesObj?.speaker_repeat?.value == 'string') {
     if (homeyDevice.capabilitiesObj.speaker_repeat.value == 'none') deviceStates.set([uc.Entities.MediaPlayer.ATTRIBUTES.REPEAT], 'OFF');
     if (homeyDevice.capabilitiesObj.speaker_repeat.value == 'track') deviceStates.set([uc.Entities.MediaPlayer.ATTRIBUTES.REPEAT], 'ONE');
     if (homeyDevice.capabilitiesObj.speaker_repeat.value == 'playlist') deviceStates.set([uc.Entities.MediaPlayer.ATTRIBUTES.REPEAT], 'ALL');

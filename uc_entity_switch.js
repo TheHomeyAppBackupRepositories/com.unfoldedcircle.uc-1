@@ -30,7 +30,7 @@ async function subscribeHomeyDevice(uc, homeyDevice, ucEntityId) {
 
 async function commandHomeyDevice(uc, homeyDevice, wsHandle, ucEntityId, ucEntityType, cmdId, params) {
   if (cmdId == 'toggle') {
-    if (homeyDevice.capabilitiesObj.onoff.value) {
+    if (homeyDevice?.capabilitiesObj?.onoff?.value) {
       cmdId = 'off';
     } else {
       cmdId = 'on';
@@ -67,7 +67,7 @@ async function ucSwitchFeaturesFromHomeyDevice(uc, homeyDevice) {
 
 async function ucSwitchStatesFromHomeyDevice(uc, homeyDevice) {
   let deviceStates = new Map([]);
-  if (homeyDevice.capabilities.includes('onoff'))
+  if (homeyDevice.capabilities.includes('onoff') && typeof homeyDevice?.capabilitiesObj?.onoff?.value == 'boolean')
     deviceStates.set([uc.Entities.Switch.ATTRIBUTES.STATE], homeyDevice.capabilitiesObj.onoff.value ? uc.Entities.Switch.STATES.ON : uc.Entities.Switch.STATES.OFF);
   return deviceStates;
 }

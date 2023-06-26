@@ -97,18 +97,26 @@ async function ucFeaturesFromHomeyDevice(uc, homeyDevice) {
 
 async function ucStatesFromHomeyDevice(uc, homeyDevice) {
   let deviceStates = new Map([]);
-  if (homeyDevice.capabilities.includes('onoff'))
+  if (homeyDevice.capabilities.includes('onoff') && typeof homeyDevice?.capabilitiesObj?.onoff?.value == 'boolean') {
     deviceStates.set([uc.Entities.Climate.ATTRIBUTES.STATE], homeyDevice.capabilitiesObj.onoff.value ? uc.Entities.Climate.STATES.AUTO : uc.Entities.Climate.STATES.OFF);
-  if (homeyDevice.capabilities.includes('fan_speed')) deviceStates.set([uc.Entities.Climate.ATTRIBUTES.FAN], parseInt(homeyDevice.capabilitiesObj.fan_speed.value * SCALE_DEFAULT));
-  if (homeyDevice.capabilities.includes('target_temperature')) {
+  }
+  if (homeyDevice.capabilities.includes('fan_speed') && typeof homeyDevice?.capabilitiesObj?.fan_speed?.value == 'number') {
+    deviceStates.set([uc.Entities.Climate.ATTRIBUTES.FAN], parseInt(homeyDevice.capabilitiesObj.fan_speed.value * SCALE_DEFAULT));
+  }
+  if (homeyDevice.capabilities.includes('target_temperature') && typeof homeyDevice?.capabilitiesObj?.target_temperature?.value == 'number') {
     deviceStates.set([uc.Entities.Climate.ATTRIBUTES.TARGET_TEMPERATURE], uctemp(homeyDevice.capabilitiesObj.target_temperature.value));
+  }
+  if (homeyDevice.capabilities.includes('target_temperature') && typeof homeyDevice?.capabilitiesObj?.target_temperature?.max == 'number') {
     deviceStates.set([uc.Entities.Climate.ATTRIBUTES.TARGET_TEMPERATURE_HIGH], homeyDevice.capabilitiesObj.target_temperature.max);
-    deviceStates.set([uc.Entities.Climate.ATTRIBUTES.TARGET_TEMPERATURE_LOW], homeyDevice.capabilitiesObj.target_temperature.min);
     deviceStates.set([uc.Entities.Climate.OPTIONS.MAX_TEMPERATURE], homeyDevice.capabilitiesObj.target_temperature.max);
+  }
+  if (homeyDevice.capabilities.includes('target_temperature') && typeof homeyDevice?.capabilitiesObj?.target_temperature?.min == 'number') {
+    deviceStates.set([uc.Entities.Climate.ATTRIBUTES.TARGET_TEMPERATURE_LOW], homeyDevice.capabilitiesObj.target_temperature.min);
     deviceStates.set([uc.Entities.Climate.OPTIONS.MIN_TEMPERATURE], homeyDevice.capabilitiesObj.target_temperature.min);
   }
-  if (homeyDevice.capabilities.includes('measure_temperature')) deviceStates.set([uc.Entities.Climate.ATTRIBUTES.CURRENT_TEMPERATURE], homeyDevice.capabilitiesObj.measure_temperature.value);
-
+  if (homeyDevice.capabilities.includes('measure_temperature') && typeof homeyDevice?.capabilitiesObj?.measure_temperature?.value == 'number') {
+    deviceStates.set([uc.Entities.Climate.ATTRIBUTES.CURRENT_TEMPERATURE], homeyDevice.capabilitiesObj.measure_temperature.value);
+  }
   deviceStates.set([uc.Entities.Climate.ATTRIBUTES.STATE], uc.Entities.Climate.STATES.AUTO);
   return deviceStates;
 }

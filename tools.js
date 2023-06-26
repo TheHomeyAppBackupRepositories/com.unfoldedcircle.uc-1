@@ -47,7 +47,7 @@ function getLocalIp() {
 
 function grabHomeyDeviceImage(homeyDevice) {
   let url = '';
-  if (homeyDevice && homeyDevice.images[0] && homeyDevice.images[0].imageObj && homeyDevice.images[0].imageObj.url) {
+  if (homeyDevice?.images[0]?.imageObj?.url) {
     url = `http://${getLocalIp()}${homeyDevice.images[0].imageObj.url}?${Date.now()}`;
   }
   return url;
