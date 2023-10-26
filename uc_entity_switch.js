@@ -13,16 +13,19 @@ async function exposeHomeyDevice(uc, homeyDevice) {
 }
 
 let eventListeners = [];
-let debugEventObj = {}; //for testing
 
 async function subscribeHomeyDevice(uc, homeyDevice, ucEntityId) {
   if (!eventListeners.includes(ucEntityId)) {
     if (homeyDevice.capabilities.includes('onoff')) {
-      debugEventObj[ucEntityId] = homeyDevice.makeCapabilityInstance('onoff', (value) => {
-        let newState = new Map([]);
-        newState.set([uc.Entities.Switch.ATTRIBUTES.STATE], value ? uc.Entities.Switch.STATES.ON : uc.Entities.Switch.STATES.OFF);
-        uc.configuredEntities.updateEntityAttributes(ucEntityId, newState);
-      });
+      try {
+        homeyDevice.makeCapabilityInstance('onoff', (value) => {
+          let newState = new Map([]);
+          newState.set([uc.Entities.Switch.ATTRIBUTES.STATE], value ? uc.Entities.Switch.STATES.ON : uc.Entities.Switch.STATES.OFF);
+          uc.configuredEntities.updateEntityAttributes(ucEntityId, newState);
+        });
+      } catch (e) {
+        console.warn("Can't make capability instance...", e);
+      }
     }
   }
   eventListeners.push(ucEntityId);

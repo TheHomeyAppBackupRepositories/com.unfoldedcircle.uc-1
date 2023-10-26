@@ -29,7 +29,12 @@ async function setHomeyApi(api, ft) {
   await addAllHomeyDevices();
   addAllHomeyDevicesInterval = setInterval(addAllHomeyDevices, HOMEY_REFRESH_INTERVAL);
 
-  uc.init(configuration);
+  try {
+    uc.init(configuration);
+  } catch (e) {
+    console.error(`Unable to start Unfolded Circle API Service...`);
+    console.error(e);
+  }
 }
 module.exports.setHomeyApi = setHomeyApi;
 

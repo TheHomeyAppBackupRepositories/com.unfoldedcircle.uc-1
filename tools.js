@@ -28,9 +28,13 @@ async function basicHomeyToYioEventBuilder(homeyDevice, ucEntityId, homeyCapabil
 
 function addUcState(homeyDevice, deviceStates, homeyCapability, multiplier) {
   if (homeyDevice.capabilities.includes(homeyCapability)) {
-    let value = homeyDevice.capabilitiesObj[homeyCapability].value;
-    if (multiplier) value = value * multiplier;
-    deviceStates.set([translateCapabilities[homeyCapability]], value);
+    try {
+      let value = homeyDevice.capabilitiesObj[homeyCapability].value;
+      if (multiplier) value = value * multiplier;
+      deviceStates.set([translateCapabilities[homeyCapability]], value);
+    } catch (e) {
+      console.warn('Error adding UC State:', e);
+    }
   }
   return deviceStates;
 }

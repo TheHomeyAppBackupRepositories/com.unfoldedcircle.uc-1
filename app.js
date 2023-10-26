@@ -10,7 +10,7 @@ let flowTrigger = null;
 
 if (process.env.DEBUG === '1') {
   debug = true;
-  require('inspector').open(9228, '0.0.0.0', false);
+  //require('inspector').open(9228, '0.0.0.0', false);
 }
 
 class MyApp extends Homey.App {
